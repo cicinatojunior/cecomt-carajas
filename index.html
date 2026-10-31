@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CECOMT Carajás Outubro 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<style>
+:root{
+ --font-anthropic-sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ --font-anthropic-serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+ --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-gap-xl:36px;
+ --cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:14px;--cds-pad-lg:20px;
+ --cds-radius:8px;--cds-font-size-caption:12.5px;--cds-font-size-body:15px;--cds-font-size-heading:16px;--cds-font-size-title:34px;--cds-font-weight-medium:500;
+ --cds-dur-slow:.3s;
+ --color-bg:#f7f8fa;--color-panel:#ffffff;--color-fg:#16191f;--color-fg-muted:#5e6673;--color-border-line:#e2e5ea;
+ --color-ok:#1a7f37;--color-bad:#c4312b;
+ --cds-chart-muted:#c3c8d0;--cds-chart-reference:#7b8494;--cds-chart-grid:#eceef2;--cds-chart-axis:#c3c8d0;
+ --cds-surface-popover:#ffffff;--cds-border:#dfe2e7;--cds-shadow-popover:0 6px 20px rgba(20,25,35,.12);--cds-text-secondary:#5e6673;
+ color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+ --color-bg:#111418;--color-panel:#181c21;--color-fg:#e8eaee;--color-fg-muted:#9aa3b0;--color-border-line:#2a3038;
+ --color-ok:#4cc26b;--color-bad:#ff6b63;
+ --cds-chart-muted:#4a525e;--cds-chart-reference:#8c95a3;--cds-chart-grid:#232930;--cds-chart-axis:#3a414b;
+ --cds-surface-popover:#20252c;--cds-border:#333a44;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);--cds-text-secondary:#9aa3b0;
+ color-scheme:dark;}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);}
+#dash-root{padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+window.dash=(function(){
+ const DS={"producao": [{"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-10", "dezena": "3", "autos": 337, "valor": 2206519, "pago": 1210, "contribuintes": 183, "cancelados": 4}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-10", "dezena": "3", "autos": 1405, "valor": 7777360, "pago": 45473, "contribuintes": 658, "cancelados": 10}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-10", "dezena": "M", "autos": 1182, "valor": 8723371, "pago": 400218, "contribuintes": 452, "cancelados": 16}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-10", "dezena": "M", "autos": 3697, "valor": 22719946, "pago": 1188552, "contribuintes": 1401, "cancelados": 34}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-10", "dezena": "3", "autos": 581, "valor": 2724447, "pago": 9854, "contribuintes": 261, "cancelados": 5}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-10", "dezena": "3", "autos": 169, "valor": 1567545, "pago": 5378, "contribuintes": 124, "cancelados": 2}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-10", "dezena": "M", "autos": 1333, "valor": 5848793, "pago": 482974, "contribuintes": 584, "cancelados": 7}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-10", "dezena": "M", "autos": 569, "valor": 3479044, "pago": 218832, "contribuintes": 333, "cancelados": 2}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-10", "dezena": "3", "autos": 69, "valor": 205582, "pago": 4055, "contribuintes": 49, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-10", "dezena": "M", "autos": 154, "valor": 523957, "pago": 96328, "contribuintes": 104, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-10", "dezena": "3", "autos": 186, "valor": 526939, "pago": 420, "contribuintes": 76, "cancelados": 2}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-10", "dezena": "M", "autos": 317, "valor": 980808, "pago": 139775, "contribuintes": 162, "cancelados": 2}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-10", "dezena": "3", "autos": 330, "valor": 1774026, "pago": 32727, "contribuintes": 174, "cancelados": 1}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-10", "dezena": "M", "autos": 591, "valor": 3826579, "pago": 114588, "contribuintes": 269, "cancelados": 2}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-10", "dezena": "3", "autos": 74, "valor": 246932, "pago": 0, "contribuintes": 58, "cancelados": 1}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-10", "dezena": "M", "autos": 189, "valor": 502494, "pago": 23789, "contribuintes": 128, "cancelados": 2}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-10", "dezena": "3", "autos": 74, "valor": 395202, "pago": 605, "contribuintes": 55, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-10", "dezena": "M", "autos": 173, "valor": 858821, "pago": 16777, "contribuintes": 118, "cancelados": 4}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-10", "dezena": "3", "autos": 72, "valor": 507347, "pago": 1077, "contribuintes": 60, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-10", "dezena": "M", "autos": 388, "valor": 3084002, "pago": 163718, "contribuintes": 229, "cancelados": 3}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-10", "dezena": "3", "autos": 4, "valor": 5330, "pago": 0, "contribuintes": 2, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-10", "dezena": "M", "autos": 22, "valor": 186550, "pago": 3142, "contribuintes": 15, "cancelados": 1}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-10", "dezena": "3", "autos": 11, "valor": 169819, "pago": 0, "contribuintes": 11, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-10", "dezena": "M", "autos": 30, "valor": 378381, "pago": 10278, "contribuintes": 29, "cancelados": 2}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-10", "dezena": "3", "autos": 79, "valor": 172120, "pago": 0, "contribuintes": 2, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-10", "dezena": "M", "autos": 82, "valor": 175940, "pago": 1108, "contribuintes": 5, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-10", "dezena": "2", "autos": 164, "valor": 1986308, "pago": 61597, "contribuintes": 108, "cancelados": 3}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-10", "dezena": "2", "autos": 1196, "valor": 8249568, "pago": 444473, "contribuintes": 661, "cancelados": 6}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-10", "dezena": "2", "autos": 134, "valor": 1021257, "pago": 25552, "contribuintes": 90, "cancelados": 1}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-10", "dezena": "2", "autos": 401, "valor": 2968141, "pago": 152771, "contribuintes": 210, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-10", "dezena": "2", "autos": 448, "valor": 1938227, "pago": 199459, "contribuintes": 283, "cancelados": 2}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-10", "dezena": "2", "autos": 247, "valor": 1307854, "pago": 122204, "contribuintes": 168, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-10", "dezena": "2", "autos": 41, "valor": 152701, "pago": 31933, "contribuintes": 38, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-10", "dezena": "2", "autos": 40, "valor": 200157, "pago": 5093, "contribuintes": 35, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-10", "dezena": "2", "autos": 79, "valor": 151689, "pago": 11359, "contribuintes": 60, "cancelados": 1}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-10", "dezena": "2", "autos": 9, "valor": 135478, "pago": 0, "contribuintes": 9, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-10", "dezena": "2", "autos": 67, "valor": 155269, "pago": 32855, "contribuintes": 51, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-10", "dezena": "2", "autos": 12, "valor": 169259, "pago": 0, "contribuintes": 8, "cancelados": 1}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-10", "dezena": "2", "autos": 2, "valor": 1456, "pago": 1108, "contribuintes": 2, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-10", "dezena": "1", "autos": 127, "valor": 1031296, "pago": 56308, "contribuintes": 80, "cancelados": 0}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-10", "dezena": "1", "autos": 1096, "valor": 6693017, "pago": 698606, "contribuintes": 590, "cancelados": 18}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-10", "dezena": "1", "autos": 59, "valor": 263461, "pago": 11078, "contribuintes": 48, "cancelados": 4}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-10", "dezena": "1", "autos": 152, "valor": 590347, "pago": 101044, "contribuintes": 108, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-10", "dezena": "1", "autos": 304, "valor": 1186118, "pago": 273661, "contribuintes": 211, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-10", "dezena": "1", "autos": 36, "valor": 103873, "pago": 12430, "contribuintes": 30, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-10", "dezena": "1", "autos": 153, "valor": 603645, "pago": 91250, "contribuintes": 120, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-10", "dezena": "1", "autos": 6, "valor": 11961, "pago": 3142, "contribuintes": 6, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-10", "dezena": "1", "autos": 444, "valor": 3548710, "pago": 246236, "contribuintes": 223, "cancelados": 12}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-10", "dezena": "1", "autos": 44, "valor": 165674, "pago": 60339, "contribuintes": 36, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-10", "dezena": "1", "autos": 64, "valor": 298601, "pago": 106500, "contribuintes": 54, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-10", "dezena": "1", "autos": 10, "valor": 73084, "pago": 10278, "contribuintes": 10, "cancelados": 2}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-10", "dezena": "1", "autos": 1, "valor": 2364, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-09", "dezena": "3", "autos": 205, "valor": 1715683, "pago": 408679, "contribuintes": 153, "cancelados": 0}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-09", "dezena": "3", "autos": 640, "valor": 7170641, "pago": 684994, "contribuintes": 384, "cancelados": 4}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-09", "dezena": "M", "autos": 518, "valor": 4225327, "pago": 1031213, "contribuintes": 299, "cancelados": 1}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-09", "dezena": "M", "autos": 2254, "valor": 20304452, "pago": 2491763, "contribuintes": 978, "cancelados": 17}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-09", "dezena": "3", "autos": 173, "valor": 2031610, "pago": 149522, "contribuintes": 100, "cancelados": 1}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-09", "dezena": "M", "autos": 956, "valor": 8112032, "pago": 832169, "contribuintes": 392, "cancelados": 11}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-09", "dezena": "3", "autos": 63, "valor": 547658, "pago": 63090, "contribuintes": 45, "cancelados": 1}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-09", "dezena": "3", "autos": 15, "valor": 140188, "pago": 38423, "contribuintes": 10, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-09", "dezena": "M", "autos": 205, "valor": 1307462, "pago": 324823, "contribuintes": 129, "cancelados": 3}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-09", "dezena": "M", "autos": 24, "valor": 208045, "pago": 45203, "contribuintes": 15, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-09", "dezena": "3", "autos": 14, "valor": 976877, "pago": 3587, "contribuintes": 11, "cancelados": 1}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-09", "dezena": "M", "autos": 44, "valor": 1538998, "pago": 79860, "contribuintes": 28, "cancelados": 1}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-09", "dezena": "3", "autos": 27, "valor": 207012, "pago": 11773, "contribuintes": 21, "cancelados": 1}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-09", "dezena": "M", "autos": 153, "valor": 833830, "pago": 49709, "contribuintes": 96, "cancelados": 1}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-09", "dezena": "3", "autos": 24, "valor": 86845, "pago": 23457, "contribuintes": 21, "cancelados": 1}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-09", "dezena": "M", "autos": 62, "valor": 232062, "pago": 82634, "contribuintes": 45, "cancelados": 1}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-09", "dezena": "3", "autos": 1, "valor": 4400, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-09", "dezena": "M", "autos": 3, "valor": 12221, "pago": 0, "contribuintes": 3, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-09", "dezena": "3", "autos": 158, "valor": 1691800, "pago": 48342, "contribuintes": 88, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-09", "dezena": "M", "autos": 378, "valor": 4286802, "pago": 173989, "contribuintes": 181, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-09", "dezena": "3", "autos": 14, "valor": 268623, "pago": 1211, "contribuintes": 8, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-09", "dezena": "M", "autos": 64, "valor": 676816, "pago": 164719, "contribuintes": 50, "cancelados": 2}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-09", "dezena": "3", "autos": 1, "valor": 17003, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-09", "dezena": "M", "autos": 39, "valor": 123632, "pago": 31178, "contribuintes": 29, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-09", "dezena": "3", "autos": 8, "valor": 30599, "pago": 0, "contribuintes": 8, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-09", "dezena": "M", "autos": 13, "valor": 54686, "pago": 1089, "contribuintes": 11, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-09", "dezena": "2", "autos": 421, "valor": 4415120, "pago": 330858, "contribuintes": 217, "cancelados": 10}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-09", "dezena": "2", "autos": 787, "valor": 7381704, "pago": 838171, "contribuintes": 444, "cancelados": 11}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-09", "dezena": "2", "autos": 104, "valor": 1050570, "pago": 96376, "contribuintes": 71, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-09", "dezena": "2", "autos": 114, "valor": 776609, "pago": 118543, "contribuintes": 88, "cancelados": 1}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-09", "dezena": "2", "autos": 89, "valor": 529833, "pago": 218279, "contribuintes": 64, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-09", "dezena": "2", "autos": 23, "valor": 268395, "pago": 140032, "contribuintes": 19, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-09", "dezena": "2", "autos": 30, "valor": 118430, "pago": 51310, "contribuintes": 24, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-09", "dezena": "2", "autos": 27, "valor": 63704, "pago": 21348, "contribuintes": 21, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-09", "dezena": "2", "autos": 43, "valor": 414157, "pago": 6345, "contribuintes": 33, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-09", "dezena": "2", "autos": 4, "valor": 56039, "pago": 4499, "contribuintes": 4, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-09", "dezena": "2", "autos": 16, "valor": 195415, "pago": 67770, "contribuintes": 13, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-09", "dezena": "2", "autos": 4, "valor": 19280, "pago": 1089, "contribuintes": 3, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-09", "dezena": "2", "autos": 1, "valor": 3985, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2026-09", "dezena": "1", "autos": 362, "valor": 1665302, "pago": 351789, "contribuintes": 202, "cancelados": 0}, {"nivel": "estado", "nome": "Pará", "periodo": "2026-09", "dezena": "1", "autos": 827, "valor": 5752107, "pago": 968598, "contribuintes": 467, "cancelados": 2}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2026-09", "dezena": "1", "autos": 199, "valor": 1733036, "pago": 503991, "contribuintes": 125, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2026-09", "dezena": "1", "autos": 116, "valor": 1544432, "pago": 29271, "contribuintes": 74, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2026-09", "dezena": "1", "autos": 53, "valor": 229970, "pago": 43454, "contribuintes": 46, "cancelados": 2}, {"nivel": "uecmt", "nome": "Ponte do Rio Tocantins", "periodo": "2026-09", "dezena": "1", "autos": 1, "valor": 4806, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2026-09", "dezena": "1", "autos": 5, "valor": 11818, "pago": 2281, "contribuintes": 4, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2026-09", "dezena": "1", "autos": 83, "valor": 212660, "pago": 31591, "contribuintes": 56, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2026-09", "dezena": "1", "autos": 27, "valor": 139799, "pago": 23476, "contribuintes": 25, "cancelados": 2}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2026-09", "dezena": "1", "autos": 14, "valor": 366706, "pago": 8503, "contribuintes": 10, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2026-09", "dezena": "1", "autos": 8, "valor": 26787, "pago": 7867, "contribuintes": 7, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2026-09", "dezena": "1", "autos": 11, "valor": 42925, "pago": 9830, "contribuintes": 8, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2026-09", "dezena": "1", "autos": 1, "valor": 3836, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2025-10", "dezena": "3", "autos": 247, "valor": 990474, "pago": 398207, "contribuintes": 142, "cancelados": 4}, {"nivel": "estado", "nome": "Pará", "periodo": "2025-10", "dezena": "3", "autos": 516, "valor": 3461779, "pago": 1502622, "contribuintes": 297, "cancelados": 5}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2025-10", "dezena": "M", "autos": 1221, "valor": 3719581, "pago": 1502122, "contribuintes": 416, "cancelados": 4}, {"nivel": "estado", "nome": "Pará", "periodo": "2025-10", "dezena": "M", "autos": 2101, "valor": 10577037, "pago": 4377284, "contribuintes": 791, "cancelados": 7}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2025-10", "dezena": "3", "autos": 125, "valor": 1561465, "pago": 603352, "contribuintes": 83, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2025-10", "dezena": "M", "autos": 284, "valor": 3358787, "pago": 1089905, "contribuintes": 149, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2025-10", "dezena": "3", "autos": 19, "valor": 355370, "pago": 111831, "contribuintes": 11, "cancelados": 1}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2025-10", "dezena": "M", "autos": 95, "valor": 918490, "pago": 412438, "contribuintes": 63, "cancelados": 3}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2025-10", "dezena": "3", "autos": 86, "valor": 294495, "pago": 188931, "contribuintes": 66, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2025-10", "dezena": "3", "autos": 38, "valor": 178355, "pago": 135621, "contribuintes": 29, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2025-10", "dezena": "M", "autos": 208, "valor": 916977, "pago": 383931, "contribuintes": 126, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2025-10", "dezena": "M", "autos": 78, "valor": 471798, "pago": 272087, "contribuintes": 48, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2025-10", "dezena": "3", "autos": 10, "valor": 16125, "pago": 11250, "contribuintes": 9, "cancelados": 0}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2025-10", "dezena": "M", "autos": 16, "valor": 124433, "pago": 33088, "contribuintes": 14, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2025-10", "dezena": "3", "autos": 38, "valor": 100015, "pago": 42061, "contribuintes": 30, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2025-10", "dezena": "M", "autos": 107, "valor": 239105, "pago": 77614, "contribuintes": 69, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2025-10", "dezena": "3", "autos": 37, "valor": 246370, "pago": 197808, "contribuintes": 27, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2025-10", "dezena": "M", "autos": 282, "valor": 1558085, "pago": 935618, "contribuintes": 132, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2025-10", "dezena": "3", "autos": 2, "valor": 13605, "pago": 2494, "contribuintes": 2, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2025-10", "dezena": "M", "autos": 11, "valor": 105117, "pago": 53271, "contribuintes": 9, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2025-10", "dezena": "2", "autos": 63, "valor": 564418, "pago": 281252, "contribuintes": 50, "cancelados": 0}, {"nivel": "estado", "nome": "Pará", "periodo": "2025-10", "dezena": "2", "autos": 816, "valor": 3392540, "pago": 1527702, "contribuintes": 416, "cancelados": 2}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2025-10", "dezena": "2", "autos": 7, "valor": 76462, "pago": 46594, "contribuintes": 6, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2025-10", "dezena": "2", "autos": 523, "valor": 1611849, "pago": 617902, "contribuintes": 240, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2025-10", "dezena": "2", "autos": 71, "valor": 402101, "pago": 131286, "contribuintes": 54, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2025-10", "dezena": "2", "autos": 4, "valor": 70675, "pago": 0, "contribuintes": 4, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2025-10", "dezena": "M", "autos": 5, "valor": 79636, "pago": 0, "contribuintes": 5, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2025-10", "dezena": "2", "autos": 38, "valor": 74622, "pago": 21314, "contribuintes": 28, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2025-10", "dezena": "2", "autos": 21, "valor": 146491, "pago": 86993, "contribuintes": 15, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2025-10", "dezena": "2", "autos": 122, "valor": 620636, "pago": 376807, "contribuintes": 75, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2025-10", "dezena": "2", "autos": 30, "valor": 117073, "pago": 73860, "contribuintes": 25, "cancelados": 2}, {"nivel": "uecmt", "nome": "Carne de Sol", "periodo": "2025-10", "dezena": "2", "autos": 6, "valor": 108308, "pago": 21838, "contribuintes": 6, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2025-10", "dezena": "2", "autos": 2, "valor": 2006, "pago": 1141, "contribuintes": 2, "cancelados": 0}, {"nivel": "uecmt", "nome": "Ferrovia de Carajás", "periodo": "2025-10", "dezena": "M", "autos": 2, "valor": 2006, "pago": 1141, "contribuintes": 2, "cancelados": 0}, {"nivel": "cecomt", "nome": "Serra do Cachimbo", "periodo": "2025-10", "dezena": "1", "autos": 123, "valor": 691079, "pago": 361003, "contribuintes": 77, "cancelados": 0}, {"nivel": "estado", "nome": "Pará", "periodo": "2025-10", "dezena": "1", "autos": 769, "valor": 3722718, "pago": 1346959, "contribuintes": 404, "cancelados": 0}, {"nivel": "cecomt", "nome": "Itinga", "periodo": "2025-10", "dezena": "1", "autos": 96, "valor": 1232904, "pago": 205301, "contribuintes": 64, "cancelados": 0}, {"nivel": "cecomt", "nome": "Gurupi", "periodo": "2025-10", "dezena": "1", "autos": 46, "valor": 446047, "pago": 226746, "contribuintes": 34, "cancelados": 0}, {"nivel": "cecomt", "nome": "Araguaia", "periodo": "2025-10", "dezena": "1", "autos": 451, "valor": 1117258, "pago": 486013, "contribuintes": 218, "cancelados": 0}, {"nivel": "cecomt", "nome": "Carajás", "periodo": "2025-10", "dezena": "1", "autos": 51, "valor": 220381, "pago": 63713, "contribuintes": 33, "cancelados": 0}, {"nivel": "uecmt", "nome": "São Geraldo do Araguaia", "periodo": "2025-10", "dezena": "1", "autos": 19, "valor": 146952, "pago": 49474, "contribuintes": 13, "cancelados": 0}, {"nivel": "uecmt", "nome": "Marabá KM 09", "periodo": "2025-10", "dezena": "1", "autos": 31, "valor": 64468, "pago": 14239, "contribuintes": 21, "cancelados": 0}, {"nivel": "uecmt", "nome": "Jarbas Passarinho", "periodo": "2025-10", "dezena": "1", "autos": 1, "valor": 8961, "pago": 0, "contribuintes": 1, "cancelados": 0}, {"nivel": "cecomt", "nome": "Portos e Aeroportos", "periodo": "2025-10", "dezena": "1", "autos": 2, "valor": 15050, "pago": 4183, "contribuintes": 2, "cancelados": 0}], "concentracao": [{"cecomt": "Carajás", "valor_maior": 905563, "valor_top5": 2176542, "valor_total": 5848793}, {"cecomt": "Araguaia", "valor_maior": 2678551, "valor_top5": 5296942, "valor_total": 8723371}, {"cecomt": "Serra do Cachimbo", "valor_maior": 613931, "valor_top5": 1624987, "valor_total": 3826579}, {"cecomt": "Itinga", "valor_maior": 699726, "valor_top5": 1149404, "valor_total": 3084002}, {"cecomt": "Gurupi", "valor_maior": 93670, "valor_top5": 338049, "valor_total": 858821}, {"cecomt": "Portos e Aeroportos", "valor_maior": 132852, "valor_top5": 284063, "valor_total": 378381}]};
+ const calcs={},cache={},draws=[],listeners=[];let params={metrica:'autos',base:'2026-09'};let sched=false;
+ function data(id){ if(id in DS) return {status:'ok',data:DS[id]};
+  if(calcs[id]){ if(!(id in cache)) cache[id]=calcs[id].fn(...calcs[id].inputs.map(i=>data(i).data)); return {status:'ok',data:cache[id]}; }
+  return {status:'missing',data:[]}; }
+ function run(){ sched=false; listeners.forEach(f=>{try{f()}catch(e){console.error(e)}});
+  draws.forEach(([n,f])=>document.querySelectorAll('[data-draw="'+n+'"]').forEach(el=>{try{f(el)}catch(e){console.error(n,e)}})); }
+ function schedule(){ if(!sched){sched=true;requestAnimationFrame(run);} }
+ let lw=0; window.addEventListener('resize',()=>{ if(window.innerWidth!==lw){lw=window.innerWidth;schedule();} });
+ return { colors:['#2563eb','#e08a1e'], calc:(id,o)=>{calcs[id]=o;}, data, draw:(n,f)=>{draws.push([n,f]);schedule();},
+  onData:(f)=>{listeners.push(f);f();}, params:()=>params, setParams:(o)=>{Object.assign(params,o);schedule();}, resetParams:()=>{params={metrica:'autos',base:'2026-09'};schedule();} };
+})();
+</script>
+</head>
+<body>
+<div id="dash-root">
+<style>
+  .cj { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); max-width: 1200px; margin-inline: auto; }
+  .cj-head { display: grid; gap: var(--cds-gap-xs); }
+  .cj-eyebrow { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+  .cj-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .cj-lede { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); max-width: 62ch; }
+  .cj .cj-lede b { color: var(--color-fg); font-weight: 600; }
+  .cj-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); }
+  .cj-tile { display: grid; gap: var(--cds-gap-xs); align-content: start; padding: var(--cds-pad-md) 0; border-top: 2px solid var(--color-border-line); }
+  .cj-tile.is-main { border-top-color: var(--cj-accent); }
+  .cj-tile-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
+  .cj-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.1; font-variant-numeric: tabular-nums; margin: 0; }
+  .cj-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; font-variant-numeric: tabular-nums; }
+  .cj .cj-up { color: var(--color-ok); font-weight: 600; }
+  .cj .cj-down { color: var(--color-bad); font-weight: 600; }
+  .cj-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: center; }
+  .cj-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: 999px; padding: 2px; gap: 2px; }
+  .cj-seg button { font: inherit; font-size: var(--cds-font-size-caption); border: 0; background: transparent; color: var(--color-fg-muted); padding: 4px 12px; border-radius: 999px; cursor: pointer; }
+  .cj-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); }
+  .cj-seg button:focus-visible { outline: 2px solid var(--cj-accent); outline-offset: 1px; }
+  .cj-seg-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .cj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+  .cj-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; }
+  .cj-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .cj-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
+  .cj-chart { position: relative; min-height: 240px; }
+  .cj-chart svg { display: block; overflow: visible; }
+  .cj-chart text { font-family: var(--font-anthropic-sans); font-size: 12px; fill: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .cj-chart text.is-cj { fill: var(--color-fg); font-weight: 600; }
+  .cj-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+  .cj-tip-h { color: var(--cds-text-secondary); }
+  .cj-wrap { overflow-x: auto; }
+  .cj table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .cj th { text-align: right; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); vertical-align: bottom; }
+  .cj td { text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .cj th:first-child, .cj td:first-child { text-align: left; }
+  .cj tr.is-cj td { font-weight: 600; background: color-mix(in srgb, var(--cj-accent) 10%, transparent); }
+  .cj td.is-best { color: var(--color-ok); }
+  .cj-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; padding: 0; list-style: none; }
+  .cj-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .cj-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); display: grid; gap: var(--cds-gap-xs); max-width: 80ch; }
+  .cj-foot p { margin: 0; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  [data-dash-source-state=empty] { color: transparent; }
+</style>
+
+<div class="cj" id="cj">
+  <header class="cj-head">
+    <p class="cj-eyebrow">SEFA-PA · Controle de Mercadorias em Trânsito · AINFs de outubro/2026</p>
+    <h1 class="cj-title">CECOMT Carajás no Pará</h1>
+    <p class="cj-lede">Carajás fechou outubro em <b data-draw="rank-lede" data-source="cecomt_mes" data-field="rank_autos" data-where="chave=Carajás|2026-10">—</b> lugar entre as CECOMTs em AINFs lavrados, com <b data-draw="share-lede" data-source="cecomt_mes" data-field="share_autos" data-where="chave=Carajás|2026-10">—</b> dos autos do estado. Em setembro eram <b data-draw="share-set-lede" data-source="cecomt_mes" data-field="share_autos" data-where="chave=Carajás|2026-09">—</b>.</p>
+  </header>
+
+  <section class="cj-tiles" id="destaques" aria-label="Destaques">
+    <div class="cj-tile is-main">
+      <p class="cj-tile-label">Posição no Pará (AINFs)</p>
+      <p class="cj-big"><span data-draw="rank" data-source="cecomt_mes" data-field="rank_autos" data-where="chave=Carajás|2026-10">—</span></p>
+      <p class="cj-sub">era <span data-draw="rank-set" data-source="cecomt_mes" data-field="rank_autos" data-where="chave=Carajás|2026-09">—</span> em set/26 e <span data-draw="rank-ano" data-source="cecomt_mes" data-field="rank_autos" data-where="chave=Carajás|2025-10">—</span> em out/25</p>
+    </div>
+    <div class="cj-tile">
+      <p class="cj-tile-label">AINFs lavrados em out/26</p>
+      <p class="cj-big"><span data-draw="autos" data-source="cecomt_mes" data-field="autos" data-where="chave=Carajás|2026-10">—</span></p>
+      <p class="cj-sub"><span data-draw="autos-var-set" data-source="kpi" data-field="autos_var" data-where="base=2026-09">—</span> vs set/26 · <span data-draw="autos-var-ano" data-source="kpi" data-field="autos_var" data-where="base=2025-10">—</span> vs out/25</p>
+    </div>
+    <div class="cj-tile">
+      <p class="cj-tile-label">Valor autuado em out/26</p>
+      <p class="cj-big"><span data-draw="valor" data-source="cecomt_mes" data-field="valor" data-where="chave=Carajás|2026-10">—</span></p>
+      <p class="cj-sub"><span data-draw="valor-var-set" data-source="kpi" data-field="valor_var" data-where="base=2026-09">—</span> vs set/26 · <span data-draw="valor-var-ano" data-source="kpi" data-field="valor_var" data-where="base=2025-10">—</span> vs out/25</p>
+    </div>
+    <div class="cj-tile">
+      <p class="cj-tile-label">Fatia dos AINFs do Pará</p>
+      <p class="cj-big"><span data-draw="share" data-source="cecomt_mes" data-field="share_autos" data-where="chave=Carajás|2026-10">—</span></p>
+      <p class="cj-sub">era <span data-draw="share-set" data-source="cecomt_mes" data-field="share_autos" data-where="chave=Carajás|2026-09">—</span> em set/26 e <span data-draw="share-ano" data-source="cecomt_mes" data-field="share_autos" data-where="chave=Carajás|2025-10">—</span> em out/25</p>
+    </div>
+    <div class="cj-tile">
+      <p class="cj-tile-label">Contribuintes autuados</p>
+      <p class="cj-big"><span data-draw="contrib" data-source="cecomt_mes" data-field="contribuintes" data-where="chave=Carajás|2026-10">—</span></p>
+      <p class="cj-sub"><span data-draw="contrib-rank" data-source="cecomt_mes" data-field="rank_contribuintes" data-where="chave=Carajás|2026-10">—</span> maior base do estado</p>
+    </div>
+  </section>
+
+  <div class="cj-bar" role="group" aria-label="Controles dos gráficos">
+    <span class="cj-seg-label">Medir por</span>
+    <div class="cj-seg" data-param="metrica">
+      <button type="button" data-v="autos" aria-pressed="true">AINFs</button>
+      <button type="button" data-v="valor" aria-pressed="false">Valor</button>
+    </div>
+    <span class="cj-seg-label">Comparar com</span>
+    <div class="cj-seg" data-param="base">
+      <button type="button" data-v="2026-09" aria-pressed="true">set/26</button>
+      <button type="button" data-v="2025-10" aria-pressed="false">out/25</button>
+    </div>
+  </div>
+
+  <div class="cj-grid">
+    <article class="cj-card" id="ranking-card">
+      <h2>Ranking das CECOMTs em outubro</h2>
+      <p class="cj-note">Barra cheia: out/26. Traço fino: período de comparação. Passe o mouse para ver a variação.</p>
+      <div class="cj-chart" id="ranking" data-draw="ranking" data-source="cecomt_mes"></div>
+    </article>
+    <article class="cj-card" id="dezenas-card">
+      <h2>Dezena a dezena em outubro</h2>
+      <p class="cj-note">Carajás subiu nas três dezenas e terminou na frente. Linha tracejada: Carajás no período de comparação.</p>
+      <div class="cj-chart" id="dezenas" data-draw="dezenas" data-source="producao"></div>
+    </article>
+  </div>
+
+  <div class="cj-grid">
+    <article class="cj-card" id="fatia-card">
+      <h2>Fatia de Carajás no estado</h2>
+      <ul class="cj-legend">
+        <li><i data-draw="sw0"></i>Fatia dos AINFs</li>
+        <li><i data-draw="sw1"></i>Fatia do valor</li>
+      </ul>
+      <div class="cj-chart" id="fatia" data-draw="fatia" data-source="cecomt_mes"></div>
+    </article>
+    <article class="cj-card" id="crescimento-card">
+      <h2>Carajás puxou o crescimento do Pará</h2>
+      <p class="cj-note">Quanto do aumento de AINFs no estado veio de Carajás, e como o resto do Pará variou sem ela.</p>
+      <div class="cj-wrap">
+        <table data-source="crescimento" data-row-key="base">
+          <thead><tr>
+            <th data-field="base">Contra</th>
+            <th data-field="pa_autos_delta">AINFs a mais no PA</th>
+            <th data-field="cj_autos_delta">Deles, de Carajás</th>
+            <th data-field="cj_parcela">Parcela de Carajás</th>
+            <th data-field="resto_autos_var">Resto do PA (AINFs)</th>
+            <th data-field="resto_valor_var">Resto do PA (valor)</th>
+          </tr></thead>
+          <tbody data-draw="tab-cresc"></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <article class="cj-card" id="qualidade-card">
+    <h2>Qualidade da autuação em outubro</h2>
+    <p class="cj-note">Em verde, o melhor resultado de cada coluna. Base mais larga e menor dependência de um único contribuinte deixam o resultado mais sólido. Recebido = pago ou parcelado, em % do valor autuado.</p>
+    <div class="cj-wrap">
+      <table data-source="qualidade" data-row-key="cecomt">
+        <thead><tr>
+          <th data-field="cecomt">CECOMT</th>
+          <th data-field="contribuintes">Contribuintes</th>
+          <th data-field="ticket">Ticket médio</th>
+          <th data-field="recebido_out">Recebido out/26</th>
+          <th data-field="recebido_set">Recebido set/26</th>
+          <th data-field="top1">Peso do maior contribuinte</th>
+          <th data-field="top5">Peso dos 5 maiores</th>
+        </tr></thead>
+        <tbody data-draw="tab-qual"></tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="cj-card" id="unidades-card">
+    <h2>Unidades de Carajás</h2>
+    <p class="cj-note">AINFs por dezena de outubro e variação do mês. São Geraldo concentra a maior parte do valor.</p>
+    <div class="cj-wrap">
+      <table data-source="uecmt" data-row-key="unidade">
+        <thead><tr>
+          <th data-field="unidade">Unidade</th>
+          <th data-field="d1">1ª dezena</th>
+          <th data-field="d2">2ª dezena</th>
+          <th data-field="d3">3ª dezena</th>
+          <th data-field="autos">AINFs out/26</th>
+          <th data-field="valor">Valor out/26</th>
+          <th data-field="var_set">vs set/26</th>
+          <th data-field="var_ano">vs out/25</th>
+        </tr></thead>
+        <tbody data-draw="tab-uecmt"></tbody>
+      </table>
+    </div>
+  </article>
+
+  <footer class="cj-foot">
+    <p>Fonte: busca avançada de AINFs do eTrânsito (SEFA-PA), por data de lavratura, extraída em 31/10/2026. Valores sem os autos cancelados. A 3ª dezena de outubro tem 11 dias e o dia 31 ainda estava em andamento.</p>
+    <p>Agrupamento: Carajás reúne Carne de Sol, São Geraldo do Araguaia, Jarbas Passarinho, Marabá KM 09, Ponte do Rio Tocantins e Ferrovia de Carajás. Araguaia reúne UECMT Araguaia, Barreira do Campo, São José do Pontão, Bela Vista e Mandií. Portos e Aeroportos reúne Aeroporto, Vila do Conde e Pratinha. Itinga, Gurupi e Serra do Cachimbo lavram com o código da própria CECOMT. Mercadorias em Trânsito e Base Candiru não lavraram AINF no eTrânsito nos períodos.</p>
+    <p>Só entram AINFs do eTrânsito; autuações feitas por TAD no SIAT não aparecem aqui.</p>
+  </footer>
+</div>
+
+<script>{
+  const P = { '2026-10': 'out/26', '2026-09': 'set/26', '2025-10': 'out/25' };
+  const nInt = new Intl.NumberFormat('pt-BR');
+  const fmtMoney = (v) => v >= 1e6 ? 'R$ ' + (v / 1e6).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' mi' : v >= 1e3 ? 'R$ ' + nInt.format(Math.round(v / 1e3)) + ' mil' : 'R$ ' + nInt.format(Math.round(v));
+  const fmtPct = (v, d = 0) => (v * 100).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const fmtVar = (v) => v == null ? '—' : (v >= 0 ? '+' : '−') + nInt.format(Math.round(Math.abs(v) * 100)) + '%';
+  const fmtOrd = (v) => v + 'º';
+  window.cjFmt = { P, nInt, fmtMoney, fmtPct, fmtVar, fmtOrd };
+
+  dash.calc('cecomt_mes', {
+    title: 'CECOMTs por mês',
+    description: 'Total do mês por CECOMT, com fatia do Pará, posição no ranking, ticket médio e recebido.',
+    inputs: ['producao'],
+    fn: (producao) => {
+      const m = producao.filter((r) => r.dezena === 'M' && r.nivel !== 'uecmt');
+      const out = [];
+      for (const p of ['2025-10', '2026-09', '2026-10']) {
+        const pa = m.find((r) => r.nivel === 'estado' && r.periodo === p);
+        const cs = m.filter((r) => r.nivel === 'cecomt' && r.periodo === p);
+        const rk = (k) => [...cs].sort((a, b) => b[k] - a[k]).map((r) => r.nome);
+        const ra = rk('autos'), rv = rk('valor'), rc = rk('contribuintes');
+        for (const r of cs) out.push({
+          chave: r.nome + '|' + p, cecomt: r.nome, periodo: p, autos: r.autos, valor: r.valor,
+          share_autos: r.autos / pa.autos, share_valor: r.valor / pa.valor,
+          rank_autos: ra.indexOf(r.nome) + 1, rank_valor: rv.indexOf(r.nome) + 1, rank_contribuintes: rc.indexOf(r.nome) + 1,
+          ticket: r.valor / (r.autos - r.cancelados), recebido: r.pago / r.valor, contribuintes: r.contribuintes,
+        });
+      }
+      return out;
+    },
+  });
+
+  dash.calc('kpi', {
+    title: 'Variação de Carajás',
+    description: 'Variação de AINFs e valor de Carajás em out/26 contra set/26 e out/25.',
+    inputs: ['cecomt_mes'],
+    fn: (cecomt_mes) => {
+      const g = (p) => cecomt_mes.find((r) => r.chave === 'Carajás|' + p);
+      const a = g('2026-10');
+      return ['2026-09', '2025-10'].map((p) => ({ base: p, autos_var: a.autos / g(p).autos - 1, valor_var: a.valor / g(p).valor - 1 }));
+    },
+  });
+
+  dash.calc('crescimento', {
+    title: 'Peso de Carajás no crescimento',
+    description: 'Quanto do aumento de AINFs do Pará veio de Carajás e a variação do resto do estado sem Carajás.',
+    inputs: ['producao'],
+    fn: (producao) => {
+      const g = (n, p) => producao.find((r) => r.nome === n && r.periodo === p && r.dezena === 'M');
+      const pa = g('Pará', '2026-10'), cj = g('Carajás', '2026-10');
+      return ['2026-09', '2025-10'].map((p) => {
+        const pb = g('Pará', p), cb = g('Carajás', p);
+        return {
+          base: p, pa_autos_delta: pa.autos - pb.autos, cj_autos_delta: cj.autos - cb.autos,
+          cj_parcela: (cj.autos - cb.autos) / (pa.autos - pb.autos),
+          resto_autos_var: (pa.autos - cj.autos) / (pb.autos - cb.autos) - 1,
+          resto_valor_var: (pa.valor - cj.valor) / (pb.valor - cb.valor) - 1,
+        };
+      });
+    },
+  });
+
+  dash.calc('qualidade', {
+    title: 'Qualidade por CECOMT',
+    description: 'Contribuintes, ticket médio, recebido e concentração por CECOMT em out/26.',
+    inputs: ['cecomt_mes', 'concentracao'],
+    fn: (cecomt_mes, concentracao) => cecomt_mes.filter((r) => r.periodo === '2026-10').map((r) => {
+      const c = concentracao.find((x) => x.cecomt === r.cecomt);
+      const s = cecomt_mes.find((x) => x.chave === r.cecomt + '|2026-09');
+      return { cecomt: r.cecomt, contribuintes: r.contribuintes, ticket: r.ticket, recebido_out: r.recebido, recebido_set: s.recebido, top1: c.valor_maior / c.valor_total, top5: c.valor_top5 / c.valor_total };
+    }).sort((a, b) => b.contribuintes - a.contribuintes),
+  });
+
+  dash.calc('uecmt', {
+    title: 'Unidades de Carajás',
+    description: 'AINFs por dezena de out/26, valor do mês e variação de AINFs por unidade de Carajás.',
+    inputs: ['producao'],
+    fn: (producao) => {
+      const u = producao.filter((r) => r.nivel === 'uecmt');
+      const g = (n, p, d) => u.find((r) => r.nome === n && r.periodo === p && r.dezena === d) || { autos: 0, valor: 0 };
+      return [...new Set(u.map((r) => r.nome))].map((n) => {
+        const o = g(n, '2026-10', 'M'), s = g(n, '2026-09', 'M'), a = g(n, '2025-10', 'M');
+        return { unidade: n, d1: g(n, '2026-10', '1').autos, d2: g(n, '2026-10', '2').autos, d3: g(n, '2026-10', '3').autos, autos: o.autos, valor: o.valor, var_set: s.autos ? o.autos / s.autos - 1 : null, var_ano: a.autos ? o.autos / a.autos - 1 : null };
+      }).sort((x, y) => y.valor - x.valor);
+    },
+  });
+}</script>
+
+<script>{
+  const { P, nInt, fmtMoney, fmtPct, fmtVar, fmtOrd } = window.cjFmt;
+  const one = (src, key, val) => { const d = dash.data(src); return d.status === 'ok' ? d.data.find((r) => r[key] === val) : null; };
+  const txt = (name, src, key, val, field, f) => dash.draw(name, (el) => {
+    const r = one(src, key, val);
+    el.textContent = r && r[field] != null ? f(r[field]) : '—';
+    el.classList.toggle('cj-up', !!r && f === fmtVar && r[field] > 0);
+    el.classList.toggle('cj-down', !!r && f === fmtVar && r[field] < 0);
+  });
+  txt('rank-lede', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'rank_autos', fmtOrd);
+  txt('share-lede', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'share_autos', fmtPct);
+  txt('share-set-lede', 'cecomt_mes', 'chave', 'Carajás|2026-09', 'share_autos', fmtPct);
+  txt('rank', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'rank_autos', fmtOrd);
+  txt('rank-set', 'cecomt_mes', 'chave', 'Carajás|2026-09', 'rank_autos', fmtOrd);
+  txt('rank-ano', 'cecomt_mes', 'chave', 'Carajás|2025-10', 'rank_autos', fmtOrd);
+  txt('autos', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'autos', (v) => nInt.format(v));
+  txt('valor', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'valor', fmtMoney);
+  txt('share', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'share_autos', fmtPct);
+  txt('share-set', 'cecomt_mes', 'chave', 'Carajás|2026-09', 'share_autos', fmtPct);
+  txt('share-ano', 'cecomt_mes', 'chave', 'Carajás|2025-10', 'share_autos', fmtPct);
+  txt('contrib', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'contribuintes', (v) => nInt.format(v));
+  txt('contrib-rank', 'cecomt_mes', 'chave', 'Carajás|2026-10', 'rank_contribuintes', fmtOrd);
+  txt('autos-var-set', 'kpi', 'base', '2026-09', 'autos_var', fmtVar);
+  txt('autos-var-ano', 'kpi', 'base', '2025-10', 'autos_var', fmtVar);
+  txt('valor-var-set', 'kpi', 'base', '2026-09', 'valor_var', fmtVar);
+  txt('valor-var-ano', 'kpi', 'base', '2025-10', 'valor_var', fmtVar);
+  dash.draw('sw0', (el) => { el.style.background = dash.colors[0]; });
+  dash.draw('sw1', (el) => { el.style.background = dash.colors[1]; });
+
+  // Controles
+  const params = () => ({ metrica: dash.params().metrica || 'autos', base: dash.params().base || '2026-09' });
+  const syncSeg = () => {
+    const p = params();
+    document.querySelectorAll('.cj-seg').forEach((g) => g.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(p[g.dataset.param] === b.dataset.v))));
+  };
+  document.querySelectorAll('.cj-seg').forEach((g) => g.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { dash.setParams({ [g.dataset.param]: b.dataset.v }); syncSeg(); })));
+  dash.onData(syncSeg);
+  window.cjParams = params;
+}</script>
+
+<script>{
+  const { P, nInt, fmtMoney, fmtPct, fmtVar } = window.cjFmt;
+  const params = window.cjParams;
+  const CJ = 'Carajás';
+  const fmtM = (m) => (m === 'valor' ? fmtMoney : (v) => nInt.format(v));
+  const measure = (svg, s) => { const t = svg.append('text').text(s); const w = t.node().getComputedTextLength(); t.remove(); return w; };
+  const tipFor = (el) => { const t = document.createElement('div'); t.className = 'cj-tip'; t.hidden = true; el.appendChild(t); return t; };
+  const showTip = (el, tip, ev, head, lines) => {
+    tip.replaceChildren();
+    const h = document.createElement('div'); h.className = 'cj-tip-h'; h.textContent = head; tip.appendChild(h);
+    for (const l of lines) { const d = document.createElement('div'); d.textContent = l; tip.appendChild(d); }
+    tip.hidden = false;
+    const r = el.getBoundingClientRect();
+    let x = ev.clientX - r.left + 12, y = ev.clientY - r.top + 12;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    if (x + tw > r.width) x = Math.max(0, ev.clientX - r.left - tw - 12);
+    if (y + th > r.height) y = Math.max(0, ev.clientY - r.top - th - 12);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  };
+  const css = (v) => getComputedStyle(document.getElementById('cj')).getPropertyValue(v).trim();
+  document.getElementById('cj').style.setProperty('--cj-accent', dash.colors[0]);
+
+  // Ranking
+  dash.draw('ranking', (el) => {
+    el.replaceChildren();
+    const d = dash.data('cecomt_mes');
+    if (d.status !== 'ok') return;
+    const { metrica, base } = params();
+    const cur = d.data.filter((r) => r.periodo === '2026-10').sort((a, b) => b[metrica] - a[metrica]);
+    const bas = Object.fromEntries(d.data.filter((r) => r.periodo === base).map((r) => [r.cecomt, r]));
+    const W = el.clientWidth || 400, rowH = 36, H = cur.length * rowH + 8;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const f = fmtM(metrica);
+    const left = d3.max(cur, (r) => measure(svg, r.cecomt)) + 12;
+    const right = d3.max(cur, (r) => measure(svg, f(r[metrica]))) + 10;
+    const max = d3.max([...cur.map((r) => r[metrica]), ...Object.values(bas).map((r) => r[metrica])]);
+    const x = d3.scaleLinear([0, max], [left, Math.max(left + 40, W - right)]);
+    const tip = tipFor(el);
+    const g = svg.selectAll('g.row').data(cur).join('g').attr('transform', (r, i) => `translate(0,${i * rowH + 4})`);
+    g.append('text').attr('x', 0).attr('y', 18).attr('class', (r) => (r.cecomt === CJ ? 'is-cj' : null)).text((r) => r.cecomt);
+    g.append('rect').attr('x', left).attr('y', 6).attr('height', 16).attr('rx', 3).attr('width', (r) => Math.max(1, x(r[metrica]) - left)).attr('fill', (r) => (r.cecomt === CJ ? dash.colors[0] : css('--cds-chart-muted')));
+    g.append('rect').attr('x', left).attr('y', 25).attr('height', 3).attr('rx', 1.5).attr('width', (r) => (bas[r.cecomt] ? Math.max(1, x(bas[r.cecomt][metrica]) - left) : 0)).attr('fill', css('--cds-chart-reference'));
+    g.append('text').attr('x', (r) => x(r[metrica]) + 6).attr('y', 18).attr('class', (r) => (r.cecomt === CJ ? 'is-cj' : null)).text((r) => f(r[metrica]));
+    g.append('rect').attr('x', 0).attr('y', 0).attr('width', W).attr('height', rowH).attr('fill', 'transparent')
+      .on('mousemove', (ev, r) => { const b = bas[r.cecomt]; showTip(el, tip, ev, r.cecomt, [`out/26: ${f(r[metrica])} (${r[metrica === 'valor' ? 'rank_valor' : 'rank_autos']}º)`, `${P[base]}: ${b ? f(b[metrica]) : '—'}`, `Variação: ${b ? fmtVar(r[metrica] / b[metrica] - 1) : '—'}`, `Fatia do PA: ${fmtPct(r[metrica === 'valor' ? 'share_valor' : 'share_autos'])}`]); })
+      .on('mouseleave', () => { tip.hidden = true; });
+  });
+
+  // Dezenas
+  dash.draw('dezenas', (el) => {
+    el.replaceChildren();
+    const d = dash.data('producao');
+    if (d.status !== 'ok') return;
+    const { metrica, base } = params();
+    const f = fmtM(metrica);
+    const rows = d.data.filter((r) => r.nivel === 'cecomt' && r.dezena !== 'M');
+    const names = [...new Set(rows.map((r) => r.nome))];
+    const series = names.map((n) => ({ nome: n, pts: ['1', '2', '3'].map((z) => (rows.find((r) => r.nome === n && r.periodo === '2026-10' && r.dezena === z) || { [metrica]: 0 })[metrica]) }));
+    const cjBase = { nome: CJ + ' ' + P[base], pts: ['1', '2', '3'].map((z) => (rows.find((r) => r.nome === CJ && r.periodo === base && r.dezena === z) || { [metrica]: 0 })[metrica]) };
+    const W = el.clientWidth || 400, H = 260;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const max = d3.max([...series, cjBase].flatMap((s) => s.pts));
+    const yTicks = d3.scaleLinear([0, max], [0, 1]).nice().ticks(4);
+    const yl = d3.max(yTicks, (t) => measure(svg, f(t))) + 8;
+    const endW = d3.max(series, (s) => measure(svg, s.nome)) + 10;
+    const m = { t: 10, r: endW, b: 26, l: yl };
+    const x = d3.scalePoint(['1ª dezena', '2ª dezena', '3ª dezena'], [m.l + 10, W - m.r - 10]);
+    const y = d3.scaleLinear([0, max], [H - m.b, m.t]).nice();
+    svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).attr('stroke', css('--cds-chart-grid'));
+    svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', m.l - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => f(t));
+    svg.append('g').selectAll('text').data(x.domain()).join('text').attr('x', (t) => x(t)).attr('y', H - 6).attr('text-anchor', 'middle').text((t) => t);
+    const xs = x.domain();
+    const line = d3.line().x((v, i) => x(xs[i])).y((v) => y(v));
+    const order = [...series].sort((a, b) => (a.nome === CJ) - (b.nome === CJ));
+    svg.append('path').attr('d', line(cjBase.pts)).attr('fill', 'none').attr('stroke', dash.colors[0]).attr('stroke-width', 1.5).attr('stroke-dasharray', '4 4').attr('opacity', .7);
+    for (const s of order) {
+      const isCj = s.nome === CJ;
+      svg.append('path').attr('d', line(s.pts)).attr('fill', 'none').attr('stroke', isCj ? dash.colors[0] : css('--cds-chart-muted')).attr('stroke-width', isCj ? 3 : 1.5).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+      svg.append('g').selectAll('circle').data(s.pts).join('circle').attr('cx', (v, i) => x(xs[i])).attr('cy', (v) => y(v)).attr('r', isCj ? 4 : 2.5).attr('fill', isCj ? dash.colors[0] : css('--cds-chart-muted'));
+    }
+    // end labels without overlap
+    const labs = series.map((s) => ({ nome: s.nome, y: y(s.pts[2]) })).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 14) labs[i].y = labs[i - 1].y + 14;
+    svg.append('g').selectAll('text').data(labs).join('text').attr('x', W - m.r + 6).attr('y', (l) => l.y + 4).attr('class', (l) => (l.nome === CJ ? 'is-cj' : null)).text((l) => l.nome);
+    const tip = tipFor(el);
+    const band = (W - m.r - m.l) / 3;
+    svg.append('g').selectAll('rect').data(xs).join('rect').attr('x', (t) => x(t) - band / 2).attr('y', m.t).attr('width', band).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+      .on('mousemove', (ev, t) => { const i = xs.indexOf(t); const ls = [...series].sort((a, b) => b.pts[i] - a.pts[i]).map((s) => `${s.nome}: ${f(s.pts[i])}`); ls.push(`${cjBase.nome}: ${f(cjBase.pts[i])}`); showTip(el, tip, ev, t + ' de out/26', ls); })
+      .on('mouseleave', () => { tip.hidden = true; });
+  });
+
+  // Fatia
+  dash.draw('fatia', (el) => {
+    el.replaceChildren();
+    const d = dash.data('cecomt_mes');
+    if (d.status !== 'ok') return;
+    const per = ['2025-10', '2026-09', '2026-10'];
+    const rows = per.map((p) => d.data.find((r) => r.chave === CJ + '|' + p));
+    const W = el.clientWidth || 400, H = 240, m = { t: 22, r: 8, b: 26, l: 8 };
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const x0 = d3.scaleBand(per, [m.l, W - m.r]).paddingInner(.3).paddingOuter(.1);
+    const x1 = d3.scaleBand(['share_autos', 'share_valor'], [0, x0.bandwidth()]).padding(.12);
+    const y = d3.scaleLinear([0, Math.max(.4, d3.max(rows, (r) => Math.max(r.share_autos, r.share_valor)))], [H - m.b, m.t]);
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', css('--cds-chart-axis'));
+    const tip = tipFor(el);
+    const g = svg.selectAll('g.p').data(rows).join('g').attr('transform', (r) => `translate(${x0(r.periodo)},0)`);
+    ['share_autos', 'share_valor'].forEach((k, i) => {
+      g.append('rect').attr('x', x1(k)).attr('width', Math.min(32, x1.bandwidth())).attr('y', (r) => y(r[k])).attr('height', (r) => y(0) - y(r[k])).attr('rx', 3).attr('fill', dash.colors[i]).attr('opacity', (r) => (r.periodo === '2026-10' ? 1 : .45));
+      g.append('text').attr('x', x1(k) + Math.min(32, x1.bandwidth()) / 2).attr('y', (r) => y(r[k]) - 6).attr('text-anchor', 'middle').attr('class', (r) => (r.periodo === '2026-10' ? 'is-cj' : null)).text((r) => fmtPct(r[k]));
+    });
+    g.append('text').attr('x', x0.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => P[r.periodo]);
+    g.append('rect').attr('x', 0).attr('y', m.t).attr('width', x0.bandwidth()).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+      .on('mousemove', (ev, r) => showTip(el, tip, ev, P[r.periodo], [`Fatia dos AINFs: ${fmtPct(r.share_autos, 1)}`, `Fatia do valor: ${fmtPct(r.share_valor, 1)}`, `Posição: ${r.rank_autos}º em AINFs, ${r.rank_valor}º em valor`]))
+      .on('mouseleave', () => { tip.hidden = true; });
+  });
+
+  // Tabelas
+  const cell = (tr, t, cls) => { const td = document.createElement('td'); td.textContent = t; if (cls) td.className = cls; tr.appendChild(td); return td; };
+  dash.draw('tab-cresc', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('crescimento');
+    if (d.status !== 'ok') return;
+    for (const r of d.data) {
+      const tr = document.createElement('tr'); tr.dataset.key = r.base;
+      cell(tr, P[r.base]);
+      cell(tr, '+' + nInt.format(r.pa_autos_delta));
+      cell(tr, '+' + nInt.format(r.cj_autos_delta));
+      cell(tr, fmtPct(r.cj_parcela), 'is-best');
+      cell(tr, fmtVar(r.resto_autos_var));
+      cell(tr, fmtVar(r.resto_valor_var), r.resto_valor_var < 0 ? 'cj-down' : null);
+      tb.appendChild(tr);
+    }
+  });
+  dash.draw('tab-qual', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('qualidade');
+    if (d.status !== 'ok') return;
+    const rows = d.data;
+    const best = { contribuintes: d3.max(rows, (r) => r.contribuintes), recebido_out: d3.max(rows, (r) => r.recebido_out), recebido_set: d3.max(rows, (r) => r.recebido_set), top1: d3.min(rows.filter((r) => r.contribuintes >= 100), (r) => r.top1), top5: d3.min(rows.filter((r) => r.contribuintes >= 100), (r) => r.top5) };
+    for (const r of rows) {
+      const tr = document.createElement('tr'); if (r.cecomt === CJ) tr.className = 'is-cj';
+      cell(tr, r.cecomt);
+      cell(tr, nInt.format(r.contribuintes), r.contribuintes === best.contribuintes ? 'is-best' : null);
+      cell(tr, 'R$ ' + nInt.format(Math.round(r.ticket)));
+      cell(tr, fmtPct(r.recebido_out, 1), r.recebido_out === best.recebido_out ? 'is-best' : null);
+      cell(tr, fmtPct(r.recebido_set, 1), r.recebido_set === best.recebido_set ? 'is-best' : null);
+      cell(tr, fmtPct(r.top1), r.top1 === best.top1 ? 'is-best' : null);
+      cell(tr, fmtPct(r.top5), r.top5 === best.top5 ? 'is-best' : null);
+      tb.appendChild(tr);
+    }
+  });
+  dash.draw('tab-uecmt', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('uecmt');
+    if (d.status !== 'ok') return;
+    for (const r of d.data) {
+      const tr = document.createElement('tr');
+      cell(tr, r.unidade);
+      cell(tr, nInt.format(r.d1)); cell(tr, nInt.format(r.d2)); cell(tr, nInt.format(r.d3));
+      cell(tr, nInt.format(r.autos)); cell(tr, fmtMoney(r.valor));
+      cell(tr, r.var_set == null ? 'novo' : fmtVar(r.var_set), r.var_set > 0 ? 'cj-up' : null);
+      cell(tr, r.var_ano == null ? 'novo' : fmtVar(r.var_ano), r.var_ano > 0 ? 'cj-up' : null);
+      tb.appendChild(tr);
+    }
+  });
+}</script>
+
+</div>
+</body>
+</html>
