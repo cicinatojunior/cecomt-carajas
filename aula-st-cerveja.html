@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>O Caso da Cerveja Barata</title>
+<style>
+:root{
+  --bg:#fbf7ef; --card:#ffffff; --ink:#1f2328; --soft:#5b6470; --line:#e6dfd2;
+  --gold:#e0a100; --beer:#f2b705; --foam:#fff8e1; --red:#d64545; --green:#2e9e5b; --blue:#2f6fde; --purple:#7c4dcc;
+  --shadow:0 6px 24px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171b; --card:#1e2127; --ink:#eef0f3; --soft:#a6adb8; --line:#2d323b;
+    --foam:#2a2614; --shadow:0 6px 24px rgba(0,0,0,.4); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171b; --card:#1e2127; --ink:#eef0f3; --soft:#a6adb8; --line:#2d323b;
+  --foam:#2a2614; --shadow:0 6px 24px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:12px;height:52px}
+header.top b{font-size:15px;white-space:nowrap}
+.dots{display:flex;gap:6px;flex:1;justify-content:flex-end;flex-wrap:wrap}
+.dots a{width:12px;height:12px;border-radius:50%;background:var(--line);display:block;transition:.3s}
+.dots a.on{background:var(--beer);transform:scale(1.35)}
+.bar{position:fixed;top:0;left:0;height:4px;background:var(--beer);z-index:11;width:0}
+section{padding:64px 0;border-bottom:1px dashed var(--line)}
+.kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+h1{font-size:clamp(34px,7vw,58px);line-height:1.08;margin:.2em 0}
+h2{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:.1em 0 .5em}
+p{margin:.6em 0}
+.lead{font-size:21px;color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.emoji{font-size:44px;line-height:1}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--foam);color:var(--gold);border:1px solid var(--gold)}
+.prof{display:flex;gap:14px;align-items:flex-start;background:var(--foam);border:2px solid var(--beer);border-radius:18px;padding:16px 18px;margin:20px 0}
+.prof .emoji{font-size:38px}
+.btn{appearance:none;border:0;background:var(--beer);color:#1f2328;font-weight:800;font-size:17px;padding:12px 22px;border-radius:14px;cursor:pointer;box-shadow:0 4px 0 #b88a00;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b88a00}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.reveal.in{animation:rise .7s ease both}
+@keyframes rise{from{opacity:.4;transform:translateY(18px)}to{opacity:1;transform:none}}
+.red{color:var(--red)} .green{color:var(--green)} .blue{color:var(--blue)} .muted{color:var(--soft)}
+small{color:var(--soft)}
+/* capa */
+.hero{min-height:min(88vh,760px);display:flex;flex-direction:column;justify-content:center}
+.glass{position:relative;width:110px;height:150px;margin:0 0 18px}
+.glass .cup{position:absolute;inset:0;border:5px solid var(--ink);border-top:0;border-radius:0 0 18px 18px;overflow:hidden}
+.glass .liq{position:absolute;bottom:0;left:0;right:0;height:0;background:var(--beer);animation:fill 2.6s ease-out forwards}
+.glass .foam{position:absolute;left:-6px;right:-6px;height:26px;background:#fff;border-radius:20px;bottom:0;opacity:0;animation:foam 2.6s ease-out forwards;box-shadow:0 0 0 2px #eee}
+.bub{position:absolute;bottom:4px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.75);animation:bub 2s infinite ease-in}
+@keyframes fill{to{height:78%}}
+@keyframes foam{to{bottom:72%;opacity:1}}
+@keyframes bub{from{transform:translateY(0);opacity:1}to{transform:translateY(-100px);opacity:0}}
+/* mapa */
+.map{width:100%;height:auto;display:block}
+.map text{font:600 14px system-ui;fill:var(--ink)}
+.map .st{fill:var(--card);stroke:var(--line);stroke-width:2}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:22px;height:4px;border-radius:3px;margin-right:6px;vertical-align:middle;background:var(--c)}
+/* pedagio */
+.toll{display:flex;align-items:flex-end;gap:10px;min-height:140px;padding:10px 0;overflow:hidden}
+.coin{display:inline-block;animation:drop .8s ease-out both}
+@keyframes drop{from{transform:translateY(-60px);opacity:0}to{transform:none;opacity:1}}
+/* réguas */
+.slider-box{margin-top:12px}
+input[type=range]{width:100%;accent-color:var(--beer);height:30px}
+.rulers{display:grid;gap:12px;margin-top:14px}
+.rl{display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:10px;font-size:15px}
+.track{height:26px;background:var(--line);border-radius:8px;position:relative;overflow:hidden}
+.fillb{height:100%;border-radius:8px;transition:width .5s ease,background .3s}
+.verdict{margin-top:14px;padding:14px;border-radius:14px;font-weight:700;transition:background .3s}
+.line75{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--red)}
+/* truque */
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.col{display:flex;align-items:flex-end;gap:16px;height:210px;padding:8px 0;border-bottom:2px solid var(--line)}
+.colb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:14px;text-align:center}
+.colb .b{width:100%;max-width:90px;border-radius:10px 10px 0 0;height:8%;transition:height 1.2s cubic-bezier(.2,.8,.2,1)}
+.colb .v{font-weight:800;font-size:17px;margin-bottom:4px}
+/* pistas */
+.flip{perspective:900px;cursor:pointer;min-height:220px}
+.flip .in{position:relative;width:100%;height:100%;min-height:220px;transition:transform .7s;transform-style:preserve-3d}
+.flip.open .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:18px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);display:flex;flex-direction:column}
+.face.front{align-items:center;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--foam),var(--card))}
+.face.back{transform:rotateY(180deg);font-size:16px;overflow:auto}
+.face .emoji{font-size:48px}
+/* números */
+.big{font-size:clamp(30px,6vw,46px);font-weight:900;line-height:1.1}
+.chart{display:flex;align-items:flex-end;gap:8px;height:240px;border-bottom:2px solid var(--line);padding-top:10px}
+.mo{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:13px}
+.mo .pair{display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;justify-content:center}
+.mo .pair i{display:block;width:44%;max-width:20px;border-radius:5px 5px 0 0;height:0;transition:height 1.2s ease}
+table{width:100%;border-collapse:collapse;font-size:16px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tablebox{overflow-x:auto}
+/* quiz */
+.q{margin:18px 0}
+.opts{display:grid;gap:8px;margin-top:8px}
+.opt{text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:10px 14px;font-size:16px;cursor:pointer}
+.opt.ok{border-color:var(--green);background:color-mix(in srgb,var(--green) 14%,var(--card))}
+.opt.no{border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--card))}
+.fb{font-size:15px;margin-top:6px;min-height:1.2em}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.calc label{font-size:14px;color:var(--soft);display:block}
+.calc input{width:100%;font-size:20px;padding:8px 10px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.out{margin-top:14px;font-size:17px}
+footer{padding:40px 0 70px;font-size:14px;color:var(--soft)}
+@media (max-width:520px){
+  body{font-size:17px}
+  .rl{grid-template-columns:86px 1fr 70px;font-size:13px}
+  .chart{gap:3px}
+  .mo{font-size:11px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<header class="top"><div class="wrap"><b>🍺 O Caso da Cerveja Barata</b><nav class="dots" id="dots"></nav></div></header>
+
+<main class="wrap">
+
+<!-- CAPA -->
+<section class="hero" id="c0" data-t="Início">
+  <div class="glass"><div class="cup"><div class="liq"></div>
+    <span class="bub" style="left:20%;animation-delay:.2s"></span><span class="bub" style="left:50%;animation-delay:.9s"></span><span class="bub" style="left:75%;animation-delay:1.4s"></span>
+  </div><div class="foam"></div></div>
+  <span class="kicker">Aula para quem nunca ouviu falar de imposto</span>
+  <h1>O mistério da cerveja que pagava menos imposto</h1>
+  <p class="lead">Uma empresa de outro estado descobriu um jeito de pagar menos da metade do imposto que devia ao Pará. Os fiscais do posto perceberam. Vamos entender como, passo a passo, como se fosse uma história de detetive.</p>
+  <p><a class="btn" href="#c1">Começar a aula ▶</a></p>
+  <p><small>10 capítulos, uns 15 minutos. No final tem um quiz e uma calculadora para você brincar de fiscal.</small></p>
+</section>
+
+<!-- 1 PERSONAGENS -->
+<section id="c1" data-t="Personagens">
+  <span class="kicker">Capítulo 1</span>
+  <h2>Os personagens da história</h2>
+  <p>Toda boa história tem personagens. Esta tem cinco.</p>
+  <div class="grid g3">
+    <div class="card reveal"><div class="emoji">🏭</div><h3>A Fábrica</h3><p>Uma cervejaria em <b>Minas Gerais</b>. Faz a cerveja.</p></div>
+    <div class="card reveal"><div class="emoji">📄</div><h3>A Atacadista</h3><p>Uma empresa de <b>outro estado do Nordeste</b>. É a vendedora no papel. <b>Nunca toca na cerveja</b>: só emite a nota fiscal.</p><span class="tag">a suspeita</span></div>
+    <div class="card reveal"><div class="emoji">🏪</div><h3>As compradoras</h3><p>Distribuidoras no Pará que revendem para bares e mercados.</p></div>
+    <div class="card reveal"><div class="emoji">🚚</div><h3>O caminhão</h3><p>Uma transportadora. Leva a cerveja direto de Minas para o Pará.</p></div>
+    <div class="card reveal"><div class="emoji">🕵️</div><h3>Os fiscais</h3><p>Equipe de um <b>posto fiscal</b> da SEFA no Pará. Conferem as notas das cargas que entram no Pará.</p><span class="tag">os detetives</span></div>
+  </div>
+</section>
+
+<!-- 2 CAMINHO -->
+<section id="c2" data-t="O caminho">
+  <span class="kicker">Capítulo 2</span>
+  <h2>A cerveja vai por um caminho. O papel vai por outro.</h2>
+  <p>Imagine que você pede uma pizza. A pizzaria fica na sua rua, mas a conta vem de uma empresa de outra cidade. Estranho, né? É isso que acontece aqui.</p>
+  <div class="card reveal">
+    <svg class="map" viewBox="0 0 640 380" role="img" aria-label="Mapa: a cerveja vai de Minas direto ao Pará, a nota fiscal passa pelo Nordeste">
+      <path d="M150 60 Q260 30 330 80 Q360 120 300 150 Q250 160 220 210 Q190 260 150 240 Q100 200 110 130 Z" class="st"/>
+      <path d="M360 150 Q470 130 560 190 Q590 240 540 280 Q470 300 420 270 Q380 230 360 150Z" class="st"/>
+      <path d="M210 260 Q300 250 360 290 Q350 350 280 360 Q220 350 210 300Z" class="st"/>
+      <text x="170" y="120">🏪 Pará</text>
+      <text x="470" y="215">📄 Nordeste</text>
+      <text x="245" y="315">🏭 Minas</text>
+      <path id="pTruck" d="M270 300 C 240 250, 220 200, 200 140" fill="none" stroke="var(--beer)" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 8"/>
+      <path id="pPaper" d="M290 295 C 420 330, 520 280, 500 225 C 470 160, 330 110, 215 128" fill="none" stroke="var(--blue)" stroke-width="3" stroke-dasharray="4 6"/>
+      <text font-size="28" dy="10" dx="-14">🚚<animateMotion dur="5s" repeatCount="indefinite"><mpath href="#pTruck"/></animateMotion></text>
+      <text font-size="22" dy="8" dx="-10">📄<animateMotion dur="7s" repeatCount="indefinite"><mpath href="#pPaper"/></animateMotion></text>
+    </svg>
+    <div class="legend"><span style="--c:var(--beer)">a cerveja (caminhão)</span><span style="--c:var(--blue)">a nota fiscal (só papel)</span></div>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div><b>Por que isso importa?</b> Porque quem escreve o preço na nota é a Atacadista. E é com esse preço que se calcula o imposto. Quem controla o preço, controla o tamanho do imposto. Guarde isso.</div></div>
+</section>
+
+<!-- 3 ST -->
+<section id="c3" data-t="O imposto">
+  <span class="kicker">Capítulo 3</span>
+  <h2>O imposto pago adiantado (a tal da "ST")</h2>
+  <p>Uma lata de cerveja passa por muitas mãos no Pará: a distribuidora vende ao mercado, o mercado vende ao bar, o bar vende a você. Em cada venda nasce um pedacinho de imposto (o ICMS).</p>
+  <p>Cobrar de cada bar seria impossível. Então o governo faz assim: <b>cobra tudo de uma vez, logo na entrada, de quem manda a cerveja de fora</b>. Esse vendedor de fora paga no lugar de todo mundo que vem depois. Por isso o nome: <b>Substituição Tributária</b>. Ele "substitui" os outros.</p>
+  <div class="card reveal">
+    <div class="grid g2">
+      <div><b>Sem ST</b><p class="muted">uma moedinha em cada balcão</p><div class="toll" id="tollA"></div></div>
+      <div><b>Com ST</b><p class="muted">tudo pago no portão de entrada</p><div class="toll" id="tollB"></div></div>
+    </div>
+    <button class="btn ghost" id="tollBtn">▶ Ver de novo</button>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div>Parece um pedágio pago de uma vez só. Mas surge uma pergunta: <b>quanto</b> cobrar se ninguém sabe ainda por quanto o bar vai vender a cerveja? Para isso existem as <b>réguas</b>. Próximo capítulo.</div></div>
+</section>
+
+<!-- 4 RÉGUAS -->
+<section id="c4" data-t="As réguas">
+  <span class="kicker">Capítulo 4</span>
+  <h2>As duas réguas e a linha dos 75%</h2>
+  <p>Para adivinhar o preço final da cerveja, a lei do Pará tem duas réguas:</p>
+  <div class="grid g2">
+    <div class="card reveal"><div class="emoji">📋</div><h3>Régua 1: a tabela</h3><p>O governo pesquisa nos mercados e publica o preço médio de cada cerveja. Chama <b>PMPF</b>. Exemplo:  Pilsen lata 269 ml = <b>R$ 2,80</b>.</p></div>
+    <div class="card reveal"><div class="emoji">➕</div><h3>Régua 2: preço + 70%</h3><p>Pega o preço da nota e soma 70% (é a "margem", ou <b>MVA</b>). Exemplo: nota de R$ 3,00 vira base de <b>R$ 5,10</b>.</p></div>
+  </div>
+  <div class="card reveal" style="margin-top:14px">
+    <p><b>Quem decide qual régua usar?</b> A <b>linha dos 75%</b> (RICMS do Pará, art. 40-A com o art. 37, § 5º):</p>
+    <p>🔻 Preço da nota <b>abaixo de 75% da tabela</b>: usa a <b>tabela</b>.<br>🔺 Preço da nota <b>em 75% da tabela ou mais</b>: usa <b>preço + 70%</b>.</p>
+    <p class="muted">A ideia é simples: se o preço já está perto do preço de mercado, ele ainda vai subir até chegar no bar, então soma a margem. Se o preço está muito baixo, a tabela protege o Estado.</p>
+    <div class="slider-box">
+      <label for="sl"><b>Mexa no preço da lata</b> (tabela fixa em R$ 2,80):</label>
+      <input type="range" id="sl" min="0.20" max="3.20" step="0.01" value="1.50">
+      <div class="rulers">
+        <div class="rl"><span>Preço da nota</span><div class="track"><div class="fillb" id="fP" style="background:var(--blue)"></div><div class="line75" id="l75"></div></div><b id="vP"></b></div>
+        <div class="rl"><span>Tabela (PMPF)</span><div class="track"><div class="fillb" id="fT" style="background:var(--purple)"></div></div><b id="vT"></b></div>
+        <div class="rl"><span>Preço + 70%</span><div class="track"><div class="fillb" id="fM" style="background:var(--gold)"></div></div><b id="vM"></b></div>
+      </div>
+      <div class="verdict" id="verd"></div>
+      <p><small>A risca vermelha marca os 75% da tabela (R$ 2,10).</small></p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 TRUQUE -->
+<section id="c5" data-t="O truque">
+  <span class="kicker">Capítulo 5</span>
+  <h2>O truque: sempre a régua menor</h2>
+  <p>A regra manda usar uma régua conforme o preço. A Atacadista fez o contrário: <b>escolheu sempre a régua que dava o imposto menor</b>. E fez isso de dois jeitos diferentes, um para cada cerveja.</p>
+  <div class="vs">
+    <div class="card reveal">
+      <span class="tag">Cerveja premium, lata 269 ml</span>
+      <p>Preço da Atacadista: <b>R$ 3,1683</b>. Tabela: <b>R$ 3,17</b>. Ela parou <b>um fio abaixo da tabela</b> (99,95%).</p>
+      <p>Como o preço passou de 75%, a regra manda <b>preço + 70%</b>. Ela usou a tabela.</p>
+      <div class="col" data-anim>
+        <div class="colb"><span class="v red">R$ 0,57</span><div class="b" data-h="46" style="background:var(--red)"></div>o que ela pagou</div>
+        <div class="colb"><span class="v green">R$ 1,24</span><div class="b" data-h="100" style="background:var(--green)"></div>o que devia</div>
+      </div>
+      <p><small>Imposto por lata. Pagou menos da metade.</small></p>
+    </div>
+    <div class="card reveal">
+      <span class="tag">Cerveja pilsen, lata 269 ml</span>
+      <p>Preço da Atacadista: <b>R$ 0,41</b>. Tabela: <b>R$ 2,80</b>. O preço foi <b>lá para baixo</b> (14,5% da tabela).</p>
+      <p>Como ficou abaixo de 75%, a regra manda a <b>tabela</b>. Ela usou preço + 70%.</p>
+      <div class="col" data-anim>
+        <div class="colb"><span class="v red">R$ 0,16</span><div class="b" data-h="20" style="background:var(--red)"></div>o que ela pagou</div>
+        <div class="colb"><span class="v green">R$ 0,79</span><div class="b" data-h="100" style="background:var(--green)"></div>o que devia</div>
+      </div>
+      <p><small>Imposto por lata. Pagou um quinto.</small></p>
+    </div>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div>É como um aluno que, na prova de múltipla escolha, marca sempre a alternativa que dá a nota que ele quer, e não a que a pergunta pede. Numa questão ele diz "vale a regra A", na outra "vale a regra B". O critério dele não é a regra: é o resultado.</div></div>
+  <div class="card reveal">
+    <b>Como se faz a conta (para quem quer ver)</b>
+    <p class="muted" style="font-size:16px">Imposto da ST = base × 30% menos o ICMS que já saiu na nota (12% do preço).<br>
+    Premium certo: 3,1683 × 1,70 = 5,39 de base; 5,39 × 30% = 1,62; menos 0,38 = <b>1,24</b>.<br>
+    Premium da Atacadista: 3,17 × 30% = 0,95; menos 0,38 = <b>0,57</b>.<br>
+    Pilsen certo: 2,80 × 30% = 0,84; menos 0,05 = <b>0,79</b>.<br>
+    Pilsen da Atacadista: 0,41 × 1,70 = 0,69; × 30% = 0,21; menos 0,05 = <b>0,16</b>.</p>
+  </div>
+</section>
+
+<!-- 6 PISTAS -->
+<section id="c6" data-t="As pistas">
+  <span class="kicker">Capítulo 6</span>
+  <h2>As pistas: como o detetive sabe que não foi engano?</h2>
+  <p>Qualquer um erra. Mas um erro de verdade cai para os dois lados, às vezes a favor, às vezes contra. Aqui não. <b>Toque em cada carta</b> para virar.</p>
+  <div class="grid g2">
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">📅</div><b>Pista 1: o mês de julho</b><small>toque para virar</small></div>
+      <div class="face back"><b>Em julho a Atacadista acertou.</b><p>Colocou o preço em 74,95% da tabela, um fio <b>abaixo</b> da linha dos 75%. Com isso a tabela valia e a conta saiu certa.</p><p>Moral: ela <b>conhece a linha dos 75%</b> e sabe parar exatamente onde quer.</p></div></div></div>
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">💸</div><b>Pista 2: vender com prejuízo</b><small>toque para virar</small></div>
+      <div class="face back"><b>Compra a R$ 1,30, vende a R$ 0,41.</b><p>A fábrica vende a pilsen para a Atacadista por R$ 1,30 a lata. No mesmo dia, a Atacadista revende à distribuidora do Pará por R$ 0,41. É vender por <b>31% do que pagou</b>.</p><p>Ninguém faz isso por engano em mais de cem mil latas.</p></div></div></div>
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">📏</div><b>Pista 3: o preço "colado" na tabela</b><small>toque para virar</small></div>
+      <div class="face back"><b>Compra a R$ 1,52, vende a R$ 3,1683.</b><p>Na premium, ela faz o oposto: mais que dobra o preço, e para justamente um centavinho abaixo da tabela (R$ 3,17).</p><p>Na garrafa de 600 ml, mesma coisa: compra a R$ 1,80 e vende a R$ 7,3192, com tabela de R$ 7,32.</p></div></div></div>
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">🚚</div><b>Pista 4: o papel do frete</b><small>toque para virar</small></div>
+      <div class="face back"><b>O documento do frete conta a verdade.</b><p>O CT-e (o "recibo" do transporte), pago pela própria Atacadista, declara a carga por um valor <b>mais de três vezes maior</b> do que o da nota.</p><p>A mesma carga, dois valores. Só um deles vira imposto.</p></div></div></div>
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">🔗</div><b>Pista 5: a fábrica sabe</b><small>toque para virar</small></div>
+      <div class="face back"><b>As notas da fábrica citam a Atacadista.</b><p>Desde setembro, em 74 de 75 remessas, a fábrica escreve o número da nota da Atacadista e o valor total (nota mais imposto), centavo a centavo.</p><p>Mostra que o conjunto foi montado junto.</p></div></div></div>
+    <div class="flip reveal"><div class="in"><div class="face front"><div class="emoji">🔁</div><b>Pista 6: continuou depois de pega</b><small>toque para virar</small></div>
+      <div class="face back"><b>Os termos não pararam a prática.</b><p>Depois dos primeiros termos, saíram dezenas de notas iguais e chegaram novas cargas com o mesmo desenho.</p></div></div></div>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div><b>Um bom detetive é honesto.</b> Essas pistas pesam muito contra a ideia de "erro de boa-fé". Mas, sozinhas, <b>não provam</b> intenção criminosa (dolo). O relatório diz isso com todas as letras, e é assim que tem que ser: a gente separa o que é <b>fato</b>, o que é <b>conta</b> e o que é <b>conclusão</b>.</div></div>
+</section>
+
+<!-- 7 NÚMEROS -->
+<section id="c7" data-t="Os números">
+  <span class="kicker">Capítulo 7</span>
+  <h2>Quanto dinheiro estamos falando?</h2>
+  <h3>Primeiro flagrante: 11 cargas em três dias</h3>
+  <div class="grid g3">
+    <div class="card reveal"><small>Imposto que faltou</small><div class="big red" data-count="870000">0</div></div>
+    <div class="card reveal"><small>Multa de 80%</small><div class="big" data-count="695000">0</div></div>
+    <div class="card reveal"><small>Total lançado</small><div class="big green" data-count="1560000">0</div></div>
+  </div>
+  <p class="reveal">Eram mais de <b>1,2 milhão de latas e garrafas</b>. A Atacadista recolheu só <b>39%</b> do imposto devido.</p>
+
+  <h3 style="margin-top:34px">Depois: o detetive foi ao arquivo (o DW)</h3>
+  <p>Com o primeiro flagrante na mão, a pergunta foi: <b>isso começou agora?</b> No banco de dados da SEFA apareceu a resposta: não. Começou pelo menos em <b>janeiro de 2026</b>.</p>
+  <div class="card reveal">
+    <div class="chart" id="chart"></div>
+    <div class="legend"><span style="--c:var(--red)">imposto que a Atacadista pagou</span><span style="--c:var(--green)">imposto que devia</span></div>
+    <p><small>Valores em reais, de janeiro a outubro de 2026. Maio, junho e agosto: nenhuma nota ao Pará. Julho: conta certa (é a pista 1).</small></p>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card reveal"><small>Pagou (aprox.)</small><div class="big red" data-count="7200000">0</div></div>
+    <div class="card reveal"><small>Devia (aprox.)</small><div class="big green" data-count="15600000">0</div></div>
+    <div class="card reveal"><small>Diferença ainda não cobrada (aprox.)</small><div class="big" data-count="7500000">0</div><small>sem multa e sem juros</small></div>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div>Um detalhe curioso: a Atacadista <b>paga exatamente</b> o que escreve na nota, centavo por centavo. Ela não é caloteira de boleto. O problema está antes: no <b>tamanho da régua</b> que ela escolhe para calcular.</div></div>
+
+</section>
+
+<!-- 8 QUEM PAGA -->
+<section id="c8" data-t="Quem paga">
+  <span class="kicker">Capítulo 8</span>
+  <h2>Quem paga a conta?</h2>
+  <div class="grid g2">
+    <div class="card reveal"><div class="emoji">📄</div><h3>A Atacadista</h3><p>É a <b>substituta</b>: a obrigação de calcular e pagar certo era dela (Protocolos ICMS 11/91 e 10/92 e RICMS/PA, art. 642).</p></div>
+    <div class="card reveal"><div class="emoji">🏪</div><h3>As distribuidoras do Pará</h3><p>Respondem <b>junto</b>, como um fiador: se o substituto erra, o comprador do Pará também fica obrigado (Lei 5.530/89, art. 39, § 2º). Por isso os termos saem no nome delas.</p></div>
+  </div>
+  <div class="prof reveal"><div class="emoji">👨‍🏫</div><div>Pense no fiador do aluguel. Quem deve é o inquilino, mas se ele não paga, o fiador responde. O fiscal no posto só tem na frente a carga e a compradora do Pará, então cobra dela. A multa é de <b>80%</b> do imposto que faltou (Lei 5.530/89, art. 78, I, "k").</div></div>
+</section>
+
+<!-- 9 E AGORA -->
+<section id="c9" data-t="E agora?">
+  <span class="kicker">Capítulo 9</span>
+  <h2>E agora? Os quatro caminhos</h2>
+  <p>O relatório não escolhe sozinho. Mostra os caminhos e a coordenação decide. Eles podem ser combinados.</p>
+  <div class="grid g2">
+    <div class="card reveal"><span class="tag">A</span><h3>Cobrar o passado</h3><p>Lançar a diferença dos meses anteriores que ainda não virou termo.</p></div>
+    <div class="card reveal"><span class="tag">B</span><h3>Avisar quem pode auditar</h3><p>Mandar o caso para as áreas da SEFA que fiscalizam empresas e substitutos fora do posto.</p></div>
+    <div class="card reveal"><span class="tag">C</span><h3>Vigiar as próximas cargas</h3><p>Conferir com atenção as próximas notas do mesmo remetente, com o teste dos 75% em cada item.</p></div>
+    <div class="card reveal"><span class="tag">D</span><h3>Um roteiro para todo posto</h3><p>Passo a passo curto para conferir qualquer cerveja com ST: achar a tabela do mês, fazer a conta do 75%, ver se a régua da nota bate.</p></div>
+  </div>
+</section>
+
+<!-- 10 QUIZ -->
+<section id="c10" data-t="Quiz">
+  <span class="kicker">Capítulo 10</span>
+  <h2>Hora do quiz</h2>
+  <div id="quiz"></div>
+  <p class="big" id="score" style="font-size:24px"></p>
+
+  <h2 style="margin-top:46px">🕵️ Agora você é o fiscal</h2>
+  <p>Coloque o preço da lata na nota e a tabela do mês. A calculadora diz qual régua vale, quanto deveria ser pago e o que a Atacadista faria.</p>
+  <div class="card">
+    <div class="calc">
+      <div><label for="cp">Preço por lata na nota (R$)</label><input id="cp" type="number" step="0.0001" value="3.1683"></div>
+      <div><label for="ct">Tabela, PMPF (R$)</label><input id="ct" type="number" step="0.01" value="3.17"></div>
+      <div><label for="cq">Quantidade de latas</label><input id="cq" type="number" step="1" value="100000"></div>
+    </div>
+    <div class="out" id="cout"></div>
+    <p><button class="btn ghost" data-ex="3.1683,3.17,100000">Exemplo premium</button> <button class="btn ghost" data-ex="0.406,2.80,100000">Exemplo Pilsen</button> <button class="btn ghost" data-ex="2.0987,2.80,100000">Exemplo julho</button></p>
+    <p><small>Conta simplificada da aula: alíquota de 30%, ICMS da nota de 12% e margem de 70%. Serve para entender, não para lavrar termo.</small></p>
+  </div>
+</section>
+
+<footer>
+  <p><b>Resumo em uma frase:</b> a Atacadista escrevia na nota o preço que fazia o imposto encolher, usando a régua errada de propósito, e os fiscais perceberam porque o erro caía sempre para o mesmo lado.</p>
+  <p>Material didático baseado em caso real, com nomes, datas e documentos omitidos e valores arredondados. Leis citadas: Lei 5.530/89 e RICMS/PA (Decreto 4.676/2001).</p>
+</footer>
+</main>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+// navegação
+const secs=$$('section[id]'), dots=$('#dots');
+secs.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.title=s.dataset.t;dots.appendChild(a)});
+const dl=$$('#dots a');
+addEventListener('scroll',()=>{
+  const h=document.documentElement; $('#bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  let cur=0; secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.4)cur=i});
+  dl.forEach((d,i)=>d.classList.toggle('on',i===cur));
+},{passive:true});
+
+// aparecer e animar
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return; const t=e.target; t.classList.add('in');
+  t.querySelectorAll('[data-anim] .b').forEach(b=>b.style.height=b.dataset.h+'%');
+  t.querySelectorAll('[data-count]').forEach(countUp);
+  if(t.matches('[data-count]'))countUp(t);
+  io.unobserve(t);
+}),{threshold:.2});
+$$('.reveal').forEach(el=>io.observe(el));
+$$('[data-count]').forEach(el=>{const v=+el.dataset.count;el.textContent=v>=1e6?'R$ '+(v/1e6).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi':brl(v)});
+function countUp(el){
+  if(el.dataset.done)return; el.dataset.done=1;
+  const end=+el.dataset.count, t0=performance.now(), d=1600;
+  (function f(t){const p=Math.min(1,(t-t0)/d), e=1-Math.pow(1-p,3);
+    const v=end*e; el.textContent=end>=1e6?'R$ '+(v/1e6).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi':brl(v);
+    if(p<1)requestAnimationFrame(f)})(t0);
+}
+
+// pedágio
+function toll(){
+  const A=$('#tollA'),B=$('#tollB');A.innerHTML='';B.innerHTML='';
+  ['🏭','🪙','🏪','🪙','🛒','🪙','🍻','🪙'].forEach((c,i)=>{const s=document.createElement('span');s.className='coin';s.style.animationDelay=i*.35+'s';s.style.fontSize='30px';s.textContent=c;A.appendChild(s)});
+  ['🚪','💰','🏪','🛒','🍻'].forEach((c,i)=>{const s=document.createElement('span');s.className='coin';s.style.animationDelay=i*.35+'s';s.style.fontSize=c==='💰'?'46px':'30px';s.textContent=c;B.appendChild(s)});
+}
+const tObs=new IntersectionObserver(e=>{if(e[0].isIntersecting){toll();tObs.disconnect()}},{threshold:.4});
+tObs.observe($('#tollA')); $('#tollBtn').onclick=toll;
+
+// réguas
+const T=2.80, MAX=5.5;
+function rulers(){
+  const p=+$('#sl').value, m=p*1.7, usaM=p>=.75*T;
+  $('#fP').style.width=p/MAX*100+'%'; $('#fT').style.width=T/MAX*100+'%'; $('#fM').style.width=m/MAX*100+'%';
+  $('#l75').style.left=(.75*T/MAX*100)+'%';
+  $('#vP').textContent=brl(p); $('#vT').textContent=brl(T); $('#vM').textContent=brl(m);
+  $('#fT').style.opacity=usaM?.3:1; $('#fM').style.opacity=usaM?1:.3;
+  const pct=(p/T*100).toFixed(1).replace('.',',');
+  const v=$('#verd');
+  v.innerHTML=usaM?`Preço = ${pct}% da tabela. Passou de 75%: vale <span class="blue">preço + 70%</span> = ${brl(m)} de base.`
+                  :`Preço = ${pct}% da tabela. Ficou abaixo de 75%: vale a <span class="blue">tabela</span> = ${brl(T)} de base.`;
+  v.style.background=usaM?'color-mix(in srgb,var(--gold) 18%,transparent)':'color-mix(in srgb,var(--purple) 16%,transparent)';
+}
+$('#sl').oninput=rulers; rulers();
+
+// gráfico
+const M=[['jan',347402.64,752295.82],['fev',465611.36,1008071.25],['mar',618665.54,1339611.05],['abr',492696.74,1066829.98],['mai',0,0],['jun',0,0],['jul',421105.66,421105.67],['ago',0,0],['set',2726572.43,5099996.75],['out',2114593.08,5904477.07]];
+const mx=5904477.07, ch=$('#chart');
+M.forEach(([m,a,b])=>{const d=document.createElement('div');d.className='mo';
+  d.innerHTML=`<div class="pair"><i title="pagou ${brl(a)}" style="background:var(--red)" data-h="${a/mx*100}"></i><i title="devia ${brl(b)}" style="background:var(--green)" data-h="${b/mx*100}"></i></div><span>${m}</span>`;ch.appendChild(d)});
+const cObs=new IntersectionObserver(e=>{if(e[0].isIntersecting){ch.querySelectorAll('i').forEach((i,k)=>setTimeout(()=>i.style.height=i.dataset.h+'%',k*60));cObs.disconnect()}},{threshold:.3});
+cObs.observe(ch);
+
+// pistas
+$$('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('open'));
+
+// quiz
+const Q=[
+ ['Quem faz a cerveja?',['A Atacadista','A fábrica em Minas Gerais','A distribuidora do Pará'],1,'A fábrica faz e manda direto. A Atacadista só emite a nota.'],
+ ['O que é a ST?',['Uma multa','O imposto de toda a cadeia pago adiantado por quem vende de fora','Um desconto para bares'],1,'O vendedor de fora paga no lugar de todos que vêm depois.'],
+ ['O preço da nota é 90% da tabela. Qual régua vale?',['A tabela','Preço + 70%'],1,'Passou de 75%: vale preço + 70%.'],
+ ['O preço da nota é 15% da tabela. Qual régua vale?',['A tabela','Preço + 70%'],0,'Abaixo de 75%: vale a tabela.'],
+ ['Qual a maior pista de que não foi engano?',['A Atacadista paga as guias em dia','O erro cai sempre para o lado que reduz o imposto, e em julho ela acertou parando em 74,95%','A cerveja é de Minas'],1,'Erro de verdade cai para os dois lados.'],
+ ['Por que a distribuidora do Pará foi autuada se quem errou foi a Atacadista?',['Porque responde junto, como um fiador','Porque ela fez a cerveja','Porque o caminhão era dela'],0,'Lei 5.530/89, art. 39, § 2º: o comprador do Pará responde solidariamente.']
+];
+let pts=0,done=0; const qz=$('#quiz');
+Q.forEach(([q,os,ok,ex],i)=>{
+  const d=document.createElement('div');d.className='q card';
+  d.innerHTML=`<b>${i+1}. ${q}</b><div class="opts"></div><div class="fb"></div>`;
+  os.forEach((o,j)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.onclick=()=>{if(d.dataset.a)return;d.dataset.a=1;done++;
+      if(j===ok){b.classList.add('ok');pts++;d.querySelector('.fb').innerHTML='✅ Isso! '+ex}
+      else{b.classList.add('no');d.querySelectorAll('.opt')[ok].classList.add('ok');d.querySelector('.fb').innerHTML='❌ Quase. '+ex}
+      if(done===Q.length)$('#score').textContent=`Você acertou ${pts} de ${Q.length}. ${pts===Q.length?'🏆 Fiscal nota dez!':pts>=4?'👏 Muito bem!':'📚 Vale reler os capítulos 4 e 5.'}`;
+    };d.querySelector('.opts').appendChild(b)});
+  qz.appendChild(d);
+});
+
+// calculadora
+function calc(){
+  const p=+$('#cp').value||0, t=+$('#ct').value||0, q=+$('#cq').value||0;
+  if(!t){$('#cout').textContent='Informe a tabela.';return}
+  const usaM=p>=.75*t, baseC=usaM?p*1.7:t, baseK=Math.min(p*1.7,t), own=p*.12;
+  const stC=Math.max(0,baseC*.3-own)*q, stK=Math.max(0,baseK*.3-own)*q, dif=stC-stK;
+  $('#cout').innerHTML=`Preço = <b>${(p/t*100).toFixed(2).replace('.',',')}%</b> da tabela. Régua certa: <b>${usaM?'preço + 70%':'tabela'}</b>.<br>
+  Imposto da ST certo: <b class="green">${brl(stC)}</b><br>
+  Se usasse a régua menor (o jeito da Atacadista): <b class="red">${brl(stK)}</b><br>
+  ${dif>0.005?`Diferença que o fiscal cobraria: <b>${brl(dif)}</b> + multa de 80% (${brl(dif*.8)})`:'✅ Aqui as duas réguas dão o mesmo resultado: nada a cobrar.'}`;
+}
+['#cp','#ct','#cq'].forEach(s=>$(s).oninput=calc);
+$$('[data-ex]').forEach(b=>b.onclick=()=>{const[a,c,d]=b.dataset.ex.split(',');$('#cp').value=a;$('#ct').value=c;$('#cq').value=d;calc()});
+calc();
+</script>
+
+</body>
+</html>
